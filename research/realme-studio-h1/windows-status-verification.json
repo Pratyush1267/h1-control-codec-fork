@@ -1,0 +1,48 @@
+{
+  "verified_at_utc": "2026-11-24T15:55:46.976074+00:00",
+  "method": "Offline byte/hash and protocol interpretation verification",
+  "bluetooth_operations": false,
+  "network_requests": false,
+  "status_capture": {
+    "actual_capture_file_sha256": "5dd8c4f925a5f972780f7e579ab52598e3708cd8d538e7b7a0edb151a7bf8a20",
+    "lf_normalized_capture_sha256": "08ed8dae5d1ac3021388f90ebc2bc13a4d46602cf98212fe92ff82a96690d7b4",
+    "original_observation_hash": "08ed8dae5d1ac3021388f90ebc2bc13a4d46602cf98212fe92ff82a96690d7b4",
+    "original_hash_scope": "LF-normalized_UTF-8_JSON_payload",
+    "capture_file_bytes": 916,
+    "protocol_received_bytes": 96,
+    "protocol_received_sha256": "a60e03ff294402816debc15aa76015dc061c89e5856241ae298e60282cdc736a",
+    "matching_successful_status_responses": 1,
+    "public_status_matches_private_bytes": true,
+    "reported_battery_percent": 39,
+    "reported_noise_mode": "off",
+    "reported_noise_modes": [
+      {
+        "code": 0,
+        "name": "off"
+      },
+      {
+        "code": 1,
+        "name": "anc"
+      },
+      {
+        "code": 2,
+        "name": "transparency"
+      }
+    ],
+    "original_files_modified": false,
+    "note": "The first observation hashed its LF JSON payload before Windows text I/O wrote CRLF. The exact original file digest is recorded here without rewriting either original. The utility now explicitly writes LF, with an offline regression test; no live query was repeated."
+  },
+  "source_files": {
+    "verified_source_files": [
+      "README.md",
+      "LICENSE",
+      "androidApp/src/main/AndroidManifest.xml",
+      "androidApp/src/main/kotlin/dev/madhuraj/h1/HeadsetController.kt",
+      "core/src/commonMain/kotlin/dev/madhuraj/h1/core/HeadsetSession.kt",
+      "core/src/commonMain/kotlin/dev/madhuraj/h1/core/Rcsp.kt",
+      "core/src/commonMain/kotlin/dev/madhuraj/h1/core/FrameParser.kt",
+      "core/src/commonTest/kotlin/dev/madhuraj/h1/core/HeadsetSessionTest.kt"
+    ],
+    "source_commit": "a7d08b045164996c7b5153660eb7d640898b3242"
+  }
+}

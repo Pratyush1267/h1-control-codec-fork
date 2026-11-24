@@ -1,0 +1,61 @@
+{
+  "evidence_type": "Owner-requested fork of the open-source H1 Control app with direct LDAC quality controls; built, installed side-by-side and launched",
+  "date": "2026-11-25",
+  "upstream": {
+    "repository": "https://github.com/madhuraj0/h1-control",
+    "commit": "a7d08b045164996c7b5153660eb7d640898b3242",
+    "license": "MIT, Copyright (c) 2026 Madhuraj",
+    "source_archive_sha256": "0ac2aeecc7856b2b7834507305c177eefe5e233df33b9911ede1dc98efc24a9c",
+    "source_files": 63
+  },
+  "fork_changes": [
+    "Added CodecQuality.kt: LdacQuality values 1000-1003, association evaluator, SDK gate, and reflection setter for BluetoothA2dp.setCodecConfigPreference with the confirmed 9-arg constructor order.",
+    "Added CompanionAssociation.kt: system-consented, non-self-managed CompanionDeviceManager association flow.",
+    "Extended CodecMonitor with quality state, association refresh, one setter call and one read-back refresh; no retry loop or reconnect reapplication.",
+    "Extended MainScreen AudioQuality with four LDAC policy buttons, association button, requested-vs-observed state and explicit limitations.",
+    "Extended MainActivity with association callbacks and result handling.",
+    "Manifest adds uses-feature android.software.companion_device_setup (required); no privileged permission was added.",
+    "applicationId changed to dev.madhuraj.h1.fork so the owner's existing dev.madhuraj.h1 install and its data are untouched.",
+    "Bugfix: uses-feature companion setup declared required=true (PackageInfo.reqFeatures check), and associate() failures are caught instead of crashing the app",
+    "Bugfix 2: exact CDM feature constant is android.software.companion_device_setup, not the hardware-style name",
+    "On app open: refresh() brings up SPP link and sends one status query; manual Refresh button added to status card",
+    "Added last-button-event timestamp in UiState and Modes card; game/spatial now show when last reported",
+    "Added read-only RFCOMM channel 10 listener (Fast Pair) with reflection createRfcommSocket(10), logging under tag H1-10; no writes",
+    "Opt-in auto reapply: saved LDAC quality, OFF by default, guarded by association + LDAC + policy mismatch + 10s cooldown, one setter on link restore",
+    "Bugfix: move link-restored callback wiring from Application.init to onCreate; init ran before base context and crashed",
+    "Auto reapply fix: queue reapply until A2DP proxy returns after onStop",
+    "Temporary H1Auto/H1Codec logging added to trace auto-reapply path",
+    "Debug-only rawh intent extra writes verbatim bytes to RFCOMM ch1 for bounded protocol experiments",
+    "Removed raw-byte write debug hook after three bounded game-mode write candidates failed"
+  ],
+  "build": {
+    "method": "Portable Windows Android SDK + Gradle 8.7 wrapper (Kotlin Multiplatform/Compose project), no global PATH change",
+    "sdk": "platforms/android-34 and android-36, build-tools/34.0.0 and 36.0.0, platform-tools",
+    "result": "BUILD SUCCESSFUL",
+    "apk_bytes": 9644882,
+    "apk_sha256": "988a1f4417c12969ffadfc172d85ed3a1d3bbb86212751c55ba832e664593b1d",
+    "package": "dev.madhuraj.h1.fork",
+    "version_name": "0.1.0-codec-fork",
+    "signer_certificate_sha256": "11c6208fde985a3df13329a803da456283cb4bfe7fe588ae009aa5a8e2903d66",
+    "signer_note": "AGP debug key; differs from the owner's existing H1 Control signer (CN=H1 Control), which is why a side-by-side package was used."
+  },
+  "install": {
+    "result": "Success",
+    "existing_package_preserved": "dev.madhuraj.h1 still installed with its original data",
+    "launch": "dev.madhuraj.h1.fork/dev.madhuraj.h1.MainActivity started; no FATAL EXCEPTION or AndroidRuntime crash observed",
+    "actions_not_taken": [
+      "No uninstall or data clear of the existing app",
+      "No forced permission grant",
+      "No association created by the agent",
+      "No LDAC quality button pressed by the agent",
+      "No codec change or headset command"
+    ]
+  },
+  "limitations": [
+    "The runtime quality change through this fork has not been exercised; it needs the owner to grant permission, associate, and press a quality button.",
+    "The Kotlin/JUnit tests in the original core were not run during this build.",
+    "The RFCOMM shell probe earlier failed; this fork uses its own transport and was only confirmed to launch without crashing.",
+    "Direct selection is version-qualified from AOSP snapshots, not guaranteed across OEM/Mainline builds."
+  ],
+  "privacy": "No MAC address, serial, full logs or proprietary artifacts are published here."
+}

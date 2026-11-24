@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.h1companion">
+
+    <!-- The only Bluetooth runtime permission this adapter needs. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <!-- Required by CompanionDeviceManager.associate()/getMyAssociations(). -->
+    <uses-feature
+        android:name="android.software.companion_device_setup"
+        android:required="false" />
+
+    <!--
+      No BLUETOOTH_PRIVILEGED, WRITE_SECURE_SETTINGS, DUMP or root/Shizuku hook.
+      On Android 16 an eligible, user-approved CompanionDeviceManager association
+      for the target device is the authorization route; onboarding is not yet
+      implemented in this scaffold.
+    -->
+    <application
+        android:allowBackup="false"
+        android:label="H1 codec adapter"
+        android:supportsRtl="true">
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

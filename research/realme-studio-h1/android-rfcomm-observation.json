@@ -1,0 +1,41 @@
+{
+  "evidence_type": "Bounded read-only Android RFCOMM connection attempt under the owner's authorized ADB shell identity; no status request was sent and no setter was invoked",
+  "observed_utc": "2026-11-24 late evening",
+  "device": "Nothing A001 (Galaga / GalagaIND), Android 16, Build BP2A.250605.031.A3",
+  "headset": "realme TechLife Studio H1, bonded and active A2DP/LDAC device; address redacted here",
+  "authorization": "Owner stated the devices were connected and not in use and approved proceeding",
+  "method": "A reflection-only Java runner dexed with D8 and launched via app_process as ADB shell (uid 2000, BLUETOOTH_PRIVILEGED and BLUETOOTH_CONNECT granted). No app installed or modified.",
+  "attempts": [
+    {
+      "transport": "BluetoothDevice.createRfcommSocketToServiceRecord(UUID.fromString('00001101-0000-1000-8000-00805f9b34fb'))",
+      "result": "socket.connect() threw java.io.IOException",
+      "bytes_sent": 0
+    },
+    {
+      "transport": "BluetoothDevice.createRfcommSocket(1) using the documented RFCOMM channel",
+      "result": "socket.connect() threw java.io.IOException",
+      "bytes_sent": 0
+    }
+  ],
+  "constraints": [
+    "No blind channel or opcode sweep was performed after the two documented variants failed.",
+    "No pairing, bonding, disassociation, firmware or headset command was attempted.",
+    "No Android companion association was created for our app.",
+    "The temporary dex was removed from /data/local/tmp after the attempt."
+  ],
+  "interpretation": {
+    "conclusion": "On this Android 16 phone, under the ADB shell identity, neither documented RFCOMM route opened a socket while the H1 was connected over A2DP. No H1 status bytes were observed on Android, so this does not corroborate or contradict the earlier Windows status result.",
+    "unknown_causes": [
+      "A2DP/SPP contention on the connected headset",
+      "Android stack restrictions on shell-initiated RFCOMM",
+      "H1 not advertising the SPP UUID via SDP on this Android build",
+      "Device state at the moment of the attempt"
+    ],
+    "not_proven": [
+      "That the H1 lacks an Android-accessible RFCOMM endpoint",
+      "That our uncompiled H1Link can or cannot connect",
+      "Any headset setter behaviour"
+    ]
+  },
+  "follow_up": "Retest from a real installed app with the user-approved companion association and a foreground UI, using one explicit refresh() and bounded logging. Do not infer success from the shell negative."
+}

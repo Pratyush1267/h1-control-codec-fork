@@ -1,0 +1,33 @@
+{
+  "evidence_type": "Owner-driven adaptive-noise button gesture; agent read logcat only, no writes",
+  "date": "2026-11-25",
+  "gesture": "Hold ANC and + together for 1s, per upstream MainScreen hint",
+  "observation": "No RealmeEvent or new RCSP command appeared on SPP channel 1 after the gesture. Only periodic op=07 status responses were logged.",
+  "log_excerpt": [
+    "01:03:12 D H1: <- RcspResponse(op=07 status=0 sn=4 ...)",
+    "01:03:17 D H1: <- RcspResponse(op=07 status=0 sn=5 ...)",
+    "01:03:18 D H1: <- RcspResponse(op=07 status=0 sn=6 ...)"
+  ],
+  "scope": "H1 Control fork listens on RFCOMM channel 1 only. Upstream tools/probe/listen.swift opens channels 1 and 10; channel 10 was not monitored in this test.",
+  "interpretation": {
+    "conclusion": "Headset accepts gesture, but no state report observed on either monitored channel. Consistent with pinned README: adaptive noise not reported.",
+    "unknowns": [
+      "Whether gesture was accepted by headset (owner voice prompt not recorded)",
+      "Whether any notification was sent on channel 10",
+      "Whether a different gesture or firmware revision reports adaptive state"
+    ],
+    "not_proven": "Absence of adaptive reporting on all channels or firmware."
+  },
+  "next": "If owner confirms voice prompt, add bounded channel-10 listener experiment. Do not send unverified commands.",
+  "channel10_attempt": {
+    "build": "e08ced70e213c2fd31d8cee32fcb147e43e5c2d6f85869e94e203d6cbe5541de",
+    "result": "createRfcommSocket(10) connect failed: read failed, socket might closed or timeout, read ret: -1",
+    "scope": "read-only listener; no writes",
+    "interpretation": "Channel 10 not reachable from Android in this state. No frame captured."
+  },
+  "second_attempt": {
+    "result": "No RealmeEvent on H1; no frames on H1-10. Only RcspResponse(op=07) status.",
+    "conclusion": "Adaptive state not observable on RFCOMM ch1 or ch10 from this Android app.",
+    "scope": "Owner-driven gesture twice; agent read-only."
+  }
+}

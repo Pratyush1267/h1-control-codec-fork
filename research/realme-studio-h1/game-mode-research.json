@@ -1,0 +1,26 @@
+{
+  "evidence_type": "Bounded public-source research for a headset read command covering game/spatial state; no device writes performed",
+  "date": "2026-11-25",
+  "question": "Does Studio H1 expose a queryable game/spatial state, or only button push events?",
+  "searched": [
+    "Installed phone packages: no Realme Link / official Realme companion found; present were GadgetBridge, H1 Control fork and the earlier minimal app.",
+    "Jieli-Tech/Android-JL_Bluetooth public repo, default branch main, 2433 files; 26 RCSP-related paths. Docs cover noise-processing mode callbacks and generic sendCommandAsync, but no game-mode, spatial-audio or work-mode read command.",
+    "Upstream H1 Control tools/probe: scripts only write `0xC0 02 05 xx` work-mode values and raw `85 86 87` frames; `restore.swift` reverts those writes. `listen.swift` only observes button-induced pushes.",
+    "Web search attempt failed with HTTP 402; no result obtained from that channel."
+  ],
+  "findings": {
+    "confirmed": [
+      "H1 Control APK has no game/spatial query: REA ev_ad63…, ev_72ce…",
+      "Game/spatial values set only from RealmeEvent feature 4/5: REA ev_8b5d…, ev_0c9f…",
+      "Status op=07 contains battery, noise and supported modes only: REA ev_5fd6…"
+    ],
+    "unresolved": [
+      "Whether some other firmware revision or vendor app has a game/spatial read command",
+      "Whether JieLi ADV work mode 0xC0 02 05 xx reflects game mode; upstream only wrote values and reverted them"
+    ],
+    "not_proven": [
+      "Absence of every possible query command on the headset"
+    ]
+  },
+  "safe_next_step": "Owner toggles game mode on H1 while the fork is open; agent reads bounded logcat for the resulting RealmeEvent frame. No opcode writes without a separate, explicit reversible-test decision."
+}

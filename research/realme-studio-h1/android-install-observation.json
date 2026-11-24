@@ -1,0 +1,25 @@
+{
+  "evidence_type": "Owner-approved installation and launch of our locally built debug APK; read-only verification only",
+  "device": "Nothing A001 (Galaga / GalagaIND), Android 16",
+  "install_command": "adb install -r h1companion-debug.apk",
+  "install_result": "Success",
+  "package": "com.example.h1companion",
+  "version_code": 1,
+  "version_name": "0.1.0-adapter",
+  "apk_sha256": "19129e93f43f51cfef4e0239f268d391e5f8eb0e40d941decc9c59789ebaebcd",
+  "launch_activity": "com.example.h1companion/.ui.MainActivity",
+  "launch_result": "am start succeeded; window drawn and activity resumed",
+  "crash_check": "No FATAL EXCEPTION or AndroidRuntime crash in logcat after launch",
+  "permission_state": {
+    "BLUETOOTH_CONNECT": "not granted at observation time; the app provides a user-controlled grant button"
+  },
+  "association_state": "No companion association was created for this package during this step",
+  "actions_not_taken": [
+    "No permission grant was forced",
+    "No RFCOMM connect, refresh or associate button was pressed by the agent",
+    "No codec setting or headset command was changed",
+    "No pairing, firmware or Bluetooth configuration change"
+  ],
+  "interpretation": "The APK installs and the minimal UI launches on the owner's device. That does not validate the codec adapter, companion onboarding or RFCOMM link; those require separate user-driven tests.",
+  "privacy": "No MAC address, serial or full logs are reproduced here."
+}

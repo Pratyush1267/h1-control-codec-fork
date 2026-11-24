@@ -1,0 +1,84 @@
+{
+  "evidence_type": "Read-only ADB pull and static REA/JADX analysis of the owner's updated, installed app; the app was not modified or re-signed",
+  "prepared_utc": "2026-11-24",
+  "question": "Does the actual Play-updated 2.6.1 build match the previously analyzed route, and does its signer match the retained 2.6.1 artifact?",
+  "acquisition": {
+    "origin": "Read-only ADB pull of the owner's existing installation after the owner updated from 2.4.1 to 2.6.1",
+    "package": "com.amrg.bluetooth_codec_converter",
+    "version_name": "2.6.1",
+    "version_code": "1125",
+    "installed_at_phone_clock": "2026-11-24 22:52:34",
+    "files": [
+      {
+        "name": "base.apk",
+        "bytes": 12766986,
+        "sha256": "bdb9c43a4b1a1fdee6cde2a084c381afd0c9ea6e1493172afda6400688d618ee",
+        "role": "DEX code and manifest; analyzed here"
+      },
+      {
+        "name": "split_config.arm64_v8a.apk",
+        "bytes": 41200,
+        "sha256": "03676aac07cd63e91c359c2fa72ae215becd67fcdd478e7095d0986324f9dc32",
+        "role": "native library split; not needed for Java/Binder route"
+      },
+      {
+        "name": "split_config.xxhdpi.apk",
+        "bytes": 48948,
+        "sha256": "b586f3224fd83e893ac8c75cee0e5aad601f200dc5c64e84fb1fcb5083737ce6",
+        "role": "resource split; not needed for Java/Binder route"
+      }
+    ],
+    "note": "Because the installed build is split, its base.apk hash is not directly comparable with the single-file APKPure 2.6.1 artifact. Signer identity is the useful comparison."
+  },
+  "manifest": {
+    "evidence_id": "ev_3c0554e0d6cadeb2f086bac60b48fb35981c0b216de4bdc54dec809ea26c00e9",
+    "min_sdk": "32",
+    "target_sdk": "37",
+    "class_count": 7119,
+    "bluetooth_related_permissions": [
+      "android.permission.BLUETOOTH_CONNECT",
+      "android.permission.REQUEST_OBSERVE_COMPANION_DEVICE_PRESENCE",
+      "android.permission.REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND",
+      "android.permission.BLUETOOTH",
+      "android.permission.BLUETOOTH_ADMIN"
+    ]
+  },
+  "signature": {
+    "method": "apksigner verify --verbose --print-certs on installed base.apk",
+    "verified": true,
+    "v3": true,
+    "source_stamp": true,
+    "signer_certificate_sha256": "31332a623837cc09eef5672c00a3f9242d012ac11bc8baf84b8a0ee8b0b3f5de",
+    "signer_dn": "CN=Android, OU=Android, O=Google Inc., L=Mountain View, ST=California, C=US",
+    "comparison": "Matches the certificate of the retained APKPure-labelled 2.6.1 APK. The earlier 2.4.1 installation used a different CN=Android Debug certificate; that discrepancy does not affect the updated Play build."
+  },
+  "static_route_confirmation": {
+    "authority": "shipped-artifact / decompiled bytecode of the installed 2.6.1 base.apk",
+    "findings": [
+      {
+        "fact": "invokeSetCodec still resolves and invokes BluetoothA2dp.setCodecConfigPreference via reflection",
+        "evidence_ids": [
+          "ev_d9c412da8da54082e88f93360be782b298f4f08ca0eeb15c8eea4b5a262f42aa",
+          "ev_2b19f71585e006f28b5b3f5c966968992d401c2fad98316ce989dd65c3a23fd0"
+        ]
+      },
+      {
+        "fact": "LDAC quality constants are unchanged: 1000 optimized audio, 1001 balanced, 1002 optimized connection, 1003 best effort",
+        "evidence_id": "ev_220b7015a9152822ded6d3dcf7561f17e96cc445d1f44a6d7e9913764e4425ff"
+      },
+      {
+        "fact": "CodecConfigFactory.build passes createLegacy(codecType, 1000000, sampleRate, bitsPerSample, channelMode, codecSpecific1, 0, 0, 0), confirming the platform constructor order discovered during the bounded shell attempt",
+        "evidence_ids": [
+          "ev_8313f3ecfb860ac2476251857c3f02819c448cd2dba536a3f00b83c07103478d",
+          "ev_5a354152fa059e74f8f2082dc1404633bc0ada8a2f53999f1e8ba4c86452319b"
+        ]
+      }
+    ],
+    "limitations": [
+      "Static code does not by itself establish runtime success; the owner's app-driven round-trip in codec-quality-roundtrip.json supplies that evidence.",
+      "No Frida trace was available on the non-debuggable Play build.",
+      "The reason the earlier 2.4.1 UI did not apply the change was not established."
+    ]
+  },
+  "privacy": "APKs and full captures remain in the approved private temporary directory; only identities and selected decompiled facts are recorded here."
+}

@@ -1,0 +1,53 @@
+{
+  "evidence_type": "Portable local build of the source scaffold; APK built and signature-verified but NOT installed or run on a phone",
+  "built_utc": "2026-11-24T18:20:00Z approximately; exact time in the private build receipt",
+  "method": "Windows portable toolchain: JDK 17 + Kotlin compiler 2.0.21 + Android platform 36 android.jar + D8 + aapt2 + apksigner. No Gradle, no global PATH change.",
+  "toolchain": {
+    "jdk_version": "Temurin 17.0.21.1+2",
+    "kotlin_compiler": "2.0.21",
+    "kotlin_compiler_zip_sha256": "0352c0a45bd22f80f6b26e485cd04da8047baa5de54865281fb9f89a4a7bcf2a",
+    "android_platform_zip_sha1": "2c1a80dd4d9f7d0e6dd336ec603d9b5c55a6f576",
+    "android_jar_sha256": "d9eb9da824d9e247a352f570f01e1169e725b2954bca9e283a71786c59b59f9a",
+    "d8_source": "Android build-tools 36 Windows archive already acquired for apksigner",
+    "aapt2_source": "Same build-tools archive; used only to compile AndroidManifest.xml to binary XML"
+  },
+  "artifact": {
+    "path_kind": "private portable build directory; not published",
+    "name": "h1companion-debug.apk",
+    "bytes": 4772243,
+    "sha256": "19129e93f43f51cfef4e0239f268d391e5f8eb0e40d941decc9c59789ebaebcd",
+    "package": "com.example.h1companion",
+    "version_code": "1",
+    "version_name": "0.1.0-adapter",
+    "min_sdk": 32,
+    "target_sdk": 36,
+    "compile_sdk": 36,
+    "permissions": [
+      "android.permission.BLUETOOTH_CONNECT"
+    ],
+    "uses_feature": "android.hardware.companion-device.setup (not required); source manifest corrected to android.software.companion_device_setup after this APK was built"
+  },
+  "signing": {
+    "verified": true,
+    "scheme": "APK Signature Scheme v3",
+    "signer_dn": "CN=H1 Companion Debug, OU=Local, O=Local, C=US",
+    "signer_certificate_sha256": "33dfd530db943050f03ef5bb05c9c4acd2935f3f0694d6bbb800f1f3fbfdae16",
+    "note": "Locally generated debug key; not a release signing identity."
+  },
+  "build_steps": [
+    "kotlinc compiled all main Kotlin sources against android.jar with -include-runtime",
+    "D8 dexed classes.jar with android.jar as the platform library, min-api 32",
+    "aapt2 link compiled the manifest to binary XML with minSdk 32 / targetSdk 36",
+    "classes.dex was added to the manifest APK",
+    "apksigner signed with the local debug keystore and verify reported success",
+    "MainActivity added with programmatic UI: permission, associate, connect, refresh, disconnect"
+  ],
+  "limitations": [
+    "No Android SDK Platform-Tools install or Gradle project was created; this is a lean adapter build only.",
+    "A minimal manual test activity is present; no headset setters are exposed.",
+    "No companion association, codec change, RFCOMM link or headset command was exercised.",
+    "The Kotlin/JUnit tests were not executed in this lean build; only the offline Python contract tests run here.",
+    "The APK has not been installed on the owner's phone."
+  ],
+  "next_gate": "Install only with explicit owner approval, then run bounded validation through a real activity/instrumentation with one explicit refresh and no setters until separately approved."
+}

@@ -1,0 +1,60 @@
+{
+  "research_date": "2026-11-24",
+  "repository": "https://github.com/madhuraj0/h1-control",
+  "source_commit": "a7d08b045164996c7b5153660eb7d640898b3242",
+  "release": {
+    "tag": "v0.1.0",
+    "url": "https://github.com/madhuraj0/h1-control/releases/tag/v0.1.0",
+    "published_date": "2026-11-12",
+    "platforms_documented": ["Android", "macOS Apple silicon"],
+    "windows_build_verified": false,
+    "release_binary_downloaded_or_executed_locally": false
+  },
+  "license": "MIT; Copyright (c) 2026 Madhuraj",
+  "author_hardware_claims": {
+    "firmware": "2.4.0",
+    "test_android_version": "15",
+    "test_macos_version": "26",
+    "chipset": "JieLi AC697",
+    "rfcomm_channels": {"SPP": 1, "Fast Pair": 10},
+    "independently_verified_on_owner_unit": false
+  },
+  "documented_control_scope": {
+    "set_noise_modes": ["off", "anc", "transparency"],
+    "read_battery": true,
+    "game_and_spatial_status": "last received button-event state only",
+    "android_codec_status": "README documents codec in use and best supported; Android-side audio information is separate from headset LDAC enablement",
+    "adaptive_noise_status": "Pinned README says it is not reported by the headphones; owner detection report needs app/version/display reconciliation",
+    "game_spatial_ldac_adaptive_setters": "No working commands documented",
+    "headset_stored_music_eq": "Not demonstrated in inspected source",
+    "firmware_update": "Not demonstrated"
+  },
+  "protocol_source": {
+    "service_uuid": "00001101-0000-1000-8000-00805f9b34fb",
+    "read_status_request_hex": "FE DC BA C0 07 00 06 01 FF FF FF FF FF EF",
+    "owner_runtime_evidence": "windows-status-observation.json",
+    "runtime_evidence_scope": "One successful status query, not a setter test or firmware/chipset identification"
+  },
+  "owner_functional_feedback": {
+    "record": "owner-control-validation.json",
+    "reported_working": ["anc", "ambient/transparency"],
+    "reported_detected": ["game_mode", "spatial_audio", "ldac", "adaptive_noise", "active_codec"],
+    "evidence_scope": "Owner reports controls plus additional detection following the Android recommendation; actual app/platform/version and status freshness not explicitly reconfirmed; not an agent-captured setter transaction"
+  },
+  "source_files": [
+    {"path": "README.md", "url": "https://raw.githubusercontent.com/madhuraj0/h1-control/a7d08b045164996c7b5153660eb7d640898b3242/README.md", "bytes": 6192, "sha256": "fda0016aab5f3f0de111a96823ecd736c21233e047881d7f14a1d2ede6de854b"},
+    {"path": "LICENSE", "url": "https://raw.githubusercontent.com/madhuraj0/h1-control/a7d08b045164996c7b5153660eb7d640898b3242/LICENSE", "bytes": 1065, "sha256": "55934b45f3afdc2ce64a4af5c10c992e1f76a20e729baf0f26260f8ad179c2bd"},
+    {"path": "androidApp/src/main/AndroidManifest.xml", "url": "https://raw.githubusercontent.com/madhuraj0/h1-control/a7d08b045164996c7b5153660eb7d640898b3242/androidApp/src/main/AndroidManifest.xml", "bytes": 2262, "sha256": "f4a48528e2c4d26538c01e442a40aa9b21f869c01631a7e07d2da981459f1f82"},
+    {"path": "androidApp/src/main/kotlin/dev/madhuraj/h1/HeadsetController.kt", "url": "https://raw.githubusercontent.com/madhuraj0/h1-control/a7d08b045164996c7b5153660eb7d640898b3242/androidApp/src/main/kotlin/dev/madhuraj/h1/HeadsetController.kt", "bytes": 13241, "sha256": "4fd0f3ae607592226fb003034b206babe6b9a2da567f8cbffdbd1bed2f7746d9"},
+    {"path": "core/src/commonMain/kotlin/dev/madhuraj/h1/core/HeadsetSession.kt", "url": "https://raw.githubusercontent.com/madhuraj0/h1-control/a7d08b045164996c7b5153660eb7d640898b3242/core/src/commonMain/kotlin/dev/madhuraj/h1/core/HeadsetSession.kt", "bytes": 6929, "sha256": "2bac5c440e82063bb5323ef8a54f90a6e969d980a79383ecc859fab70b342057"},
+    {"path": "core/src/commonMain/kotlin/dev/madhuraj/h1/core/Rcsp.kt", "url": "https://raw.githubusercontent.com/madhuraj0/h1-control/a7d08b045164996c7b5153660eb7d640898b3242/core/src/commonMain/kotlin/dev/madhuraj/h1/core/Rcsp.kt", "bytes": 2547, "sha256": "f6940930f74fa0495ea10ccdc924a4a224799b5ad2d2bdea261545745376973d"},
+    {"path": "core/src/commonMain/kotlin/dev/madhuraj/h1/core/FrameParser.kt", "url": "https://raw.githubusercontent.com/madhuraj0/h1-control/a7d08b045164996c7b5153660eb7d640898b3242/core/src/commonMain/kotlin/dev/madhuraj/h1/core/FrameParser.kt", "bytes": 4787, "sha256": "0393500f6e63ce49e1c523475fd55bc3253d927c574c86f7eba85eaa9fe2b32d"},
+    {"path": "core/src/commonTest/kotlin/dev/madhuraj/h1/core/HeadsetSessionTest.kt", "url": "https://raw.githubusercontent.com/madhuraj0/h1-control/a7d08b045164996c7b5153660eb7d640898b3242/core/src/commonTest/kotlin/dev/madhuraj/h1/core/HeadsetSessionTest.kt", "bytes": 4549, "sha256": "a5c1b4a6763be6050b4f4926a7049ac8febbef4cfd96b32f8c177b0cf90e50a2"}
+  ],
+  "retention_notes": [
+    "Eight pinned public source files were retained unchanged in the approved local temporary directory.",
+    "A subsequent release API request from the local capture helper returned HTTP 403 rate limit exceeded; the helper did not reach its tag request.",
+    "Release/tag findings also came from the earlier public research and parent verification, not this failed helper request.",
+    "No third-party release binary, Android tooling or Bluetooth driver was installed by the agent; owner test details are recorded separately."
+  ]
+}

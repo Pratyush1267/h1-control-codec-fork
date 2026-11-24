@@ -1,0 +1,48 @@
+{
+  "evidence_type": "Read-only ADB observation after the owner used the H1 Control fork; no setter was invoked by the agent",
+  "observed_utc": "2026-11-25 approximately 00:31-00:35 IST; exact time in private capture",
+  "device": "Nothing A001 / Android 16",
+  "headset": "realme TechLife Studio H1; address redacted here, present in private capture",
+  "current_codec_state": {
+    "codec": "LDAC",
+    "sample_rate": "96000 Hz",
+    "bits_per_sample": 32,
+    "channel_mode": "stereo",
+    "codecSpecific1": 1002,
+    "quality_label": "Optimized for connection quality (330/303 kbps)",
+    "stack_reported_quality": "LOW",
+    "stack_reported_bitrate_kbps": 330,
+    "audio_hal_format": "AUDIO_FORMAT_LDAC",
+    "active_a2dp_device_is_h1": true
+  },
+  "companion_association": {
+    "package": "dev.madhuraj.h1.fork",
+    "association_id": 7,
+    "self_managed": false,
+    "revoked": false,
+    "device_mac_matches_h1": true,
+    "approved_at_phone_clock": "2026-11-25 00:31:02 GMT+05:30"
+  },
+  "interpretation": {
+    "conclusion": "The fork's companion association was successfully created through the system consent flow, and the active LDAC policy is now 1002 (connection-oriented). This is consistent with the owner having pressed the fork's 'Connection (330/303 kbps)' button; the agent did not change the setting.",
+    "confirmed": [
+      "A non-self-managed CDM association for the fork exists for the correct headset",
+      "The Android 16 codec setter route is usable by the fork under that association if the owner's button press caused this change"
+    ],
+    "not_proven": [
+      "Which exact UI action produced 1002 without the owner's confirmation",
+      "That 330 kbps is measured throughput rather than the configured policy",
+      "Persistence across reconnect or call/HFP switching"
+    ]
+  },
+  "privacy": "MAC address, USB serial and full dumpsys output remain in the approved private temporary directory.",
+  "subsequent_observation": {
+    "codecSpecific1": 1000,
+    "quality_label": "Optimized for audio quality (990/909 kbps)",
+    "stack_reported_quality": "HIGH",
+    "stack_reported_bitrate_kbps": 990,
+    "codec": "LDAC",
+    "hal_codec": "AUDIO_FORMAT_LDAC",
+    "interpretation": "Owner restored audio-quality policy through the fork; this completes an observed 1002 -> 1000 transition via the app. Agent used read-only ADB only."
+  }
+}

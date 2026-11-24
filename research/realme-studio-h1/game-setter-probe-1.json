@@ -1,0 +1,30 @@
+{
+  "evidence_type": "Owner-approved bounded write experiment: one game-mode hypothesis and immediate reversal",
+  "date": "2026-11-25",
+  "hypothesis": "RCSP op=0xFF wrapping realme frame 85 86 87 02 04 01 toggles game mode ON",
+  "baseline": "game mode off from persisted RealmeEvent(04 00); no fresh push in this run",
+  "commands": [
+    {
+      "time": "01:44:11.496",
+      "direction": "app -> H1",
+      "frame": "FE DC BA C0 FF 00 07 0B 85 86 87 02 04 01 EF (reported as op=FF payload=85 86 87 02 04 01)",
+      "response": "01:44:11.609 RcspResponse(op=FF status=0 sn=10 payload=)"
+    },
+    {
+      "time": "01:44:15.601",
+      "direction": "app -> H1 reversal",
+      "frame": "op=FF payload=85 86 87 02 04 00",
+      "response": "01:44:15.615 RcspResponse(op=FF status=0 sn=12 payload=)"
+    }
+  ],
+  "observed_effect": "No RealmeEvent(04 01) push. Status responses before/after unchanged: battery 0x12, noise 0x01, supported modes 3. ACK only, no state telemetry.",
+  "interpretation": {
+    "conclusion": "Hypothesis unproven. Generic ACK does not establish a state change. Owner physical confirmation required.",
+    "next_candidate": "JieLi ADV work mode 0xC0 02 05 01 with reversal 0xC0 02 05 00, one command at a time."
+  },
+  "limits": [
+    "No root, pairing or firmware operation performed.",
+    "Only one candidate tested.",
+    "No measured audio/game-state instrument; owner observation needed."
+  ]
+}

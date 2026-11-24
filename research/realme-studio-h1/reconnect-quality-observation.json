@@ -1,0 +1,29 @@
+{
+  "evidence_type": "Owner-driven disconnect/reconnect of H1; agent read-only ADB before and after",
+  "date": "2026-11-25",
+  "before": {
+    "codec": "LDAC",
+    "codecSpecific1": 1000,
+    "quality_mode": "HIGH",
+    "stack_bitrate_kbps": 990,
+    "hal_codec": "AUDIO_FORMAT_LDAC"
+  },
+  "after_reconnect": {
+    "codec": "LDAC",
+    "codecSpecific1": 3,
+    "quality_mode": "ABR",
+    "stack_bitrate_kbps": 660,
+    "hal_codec": "AUDIO_FORMAT_SBC",
+    "active_device_is_h1": true
+  },
+  "interpretation": {
+    "conclusion": "Optimized-for-audio policy (1000) did not survive disconnect/reconnect. Android returned to legacy value 3 = Best effort / adaptive ABR. LDAC still negotiated, but quality policy reset.",
+    "note": "codecSpecific1 uses two encodings: 1000-1003 and legacy 0-3. Value 3 maps to adaptive per CodecMonitor.ldacMode.",
+    "not_proven": [
+      "Whether any app re-applies a saved preference on reconnect",
+      "Whether policy persists across HFP/call switching",
+      "Whether 660 kbps is measured throughput (it is a stack-reported value, and HAL reported SBC at capture time)"
+    ]
+  },
+  "implication": "Any quality profile feature must treat remembered preference as UNKNOWN until re-applied and verified after reconnect. Opt-in reapplication needs device/LDAC/association checks and a single setter call."
+}

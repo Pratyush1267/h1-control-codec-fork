@@ -1,0 +1,65 @@
+{
+  "observed_at_utc": "2026-11-24T15:55:46.291507+00:00",
+  "method": "Windows native Bluetooth cache and installed/enabled-service enumeration",
+  "device": {
+    "name": "realme TechLife Studio H1",
+    "windows_reports_connected": true,
+    "remembered": true,
+    "authenticated_pairing": true,
+    "class_of_device_hex": "0x240404",
+    "address": "redacted",
+    "physical_model_label_verified": false,
+    "firmware_version": null
+  },
+  "installed_enabled_services": [
+    {
+      "uuid": "00001101-0000-1000-8000-00805f9b34fb",
+      "recognized_name": "Serial Port (SPP)",
+      "headset_control_verified": false
+    },
+    {
+      "uuid": "0000110b-0000-1000-8000-00805f9b34fb",
+      "recognized_name": "Audio Sink (A2DP)",
+      "headset_control_verified": false
+    },
+    {
+      "uuid": "0000110c-0000-1000-8000-00805f9b34fb",
+      "recognized_name": "A/V Remote Control Target",
+      "headset_control_verified": false
+    },
+    {
+      "uuid": "0000110e-0000-1000-8000-00805f9b34fb",
+      "recognized_name": "A/V Remote Control",
+      "headset_control_verified": false
+    },
+    {
+      "uuid": "0000111e-0000-1000-8000-00805f9b34fb",
+      "recognized_name": "Hands-Free (HFP)",
+      "headset_control_verified": false
+    },
+    {
+      "uuid": "00001124-0000-1000-8000-00805f9b34fb",
+      "recognized_name": null,
+      "headset_control_verified": false
+    },
+    {
+      "uuid": "df21fe2c-2515-4fdb-8886-f12c4d67927c",
+      "recognized_name": "Google Fast Pair Message Stream",
+      "headset_control_verified": false
+    }
+  ],
+  "safety": {
+    "bluetooth_inquiry_issued": false,
+    "fresh_sdp_requested": false,
+    "gatt_discovery_requested": false,
+    "socket_opened": false,
+    "vendor_commands_sent": false,
+    "pairing_or_service_state_changed": false
+  },
+  "limitations": [
+    "Enabled Windows services are not the complete fresh remote SDP database.",
+    "No BLE advertising or GATT services were measured.",
+    "The Bluetooth display name does not verify the printed model or firmware.",
+    "Service presence or absence here does not establish remote ANC/EQ support."
+  ]
+}

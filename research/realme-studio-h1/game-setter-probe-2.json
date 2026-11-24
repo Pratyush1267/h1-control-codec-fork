@@ -1,0 +1,25 @@
+{
+  "evidence_type": "Owner-approved bounded write experiment: second game-mode hypothesis and immediate reversal",
+  "date": "2026-11-25",
+  "hypothesis": "JieLi RCSP op=0xC0 payload=02 05 01 sets work mode (upstream gametest.swift candidate) and toggles game mode",
+  "commands": [
+    {
+      "time": "01:45:22.323",
+      "direction": "app -> H1",
+      "frame": "op=C0 payload=02 05 01",
+      "response": "01:45:22.607 RcspResponse(op=C0 status=0 sn=14 payload=00)"
+    },
+    {
+      "time": "01:45:26.644",
+      "direction": "app -> H1 reversal",
+      "frame": "op=C0 payload=02 05 00",
+      "response": "01:45:26.676 RcspResponse(op=C0 status=0 sn=16 payload=00)"
+    }
+  ],
+  "observed_effect": "No RealmeEvent(04 01). Status responses unchanged: battery 0x12, noise 0x01, supported modes 3. ACK payload 00 only, no telemetry.",
+  "interpretation": {
+    "conclusion": "Hypothesis unproven absent owner physical confirmation. ACK is generic and does not prove game state changed.",
+    "status": "Owner confirmed no physical change for either candidate. Two bounded hypotheses tested, both ACK-only. Stop game setter search; no verified game-mode setter found."
+  },
+  "limits": ["No firmware change, pairing change or root used.", "Owner observation required to confirm physical effect."]
+}

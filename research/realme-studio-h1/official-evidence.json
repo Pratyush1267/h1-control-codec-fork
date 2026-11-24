@@ -1,0 +1,51 @@
+{
+  "captured_on": "2026-11-24",
+  "scope": "Current public product page and image declarations; no headset runtime measurements",
+  "product_url": "https://www.realme.com/in/more-products/realme-techlife-studio-h1",
+  "captured_page_sha256": "db983249ab5d5ebedd0a5f688a6bc0b72080b4a560c958769f3ab9eec915f8e9",
+  "reviewed_desktop_image_count": 26,
+  "evidence": [
+    {
+      "id": "realme-specification-image-24",
+      "url": "https://image01.realme.net/general/20240826/1724641472845b7951f5e8f7c4b3ab95b04165d33e20d.jpg",
+      "sha256": "dda1307300f872751448978eb65afbf621a49c11b711fd360349e70fb21f7234",
+      "evidence_type": "visual transcription of manufacturer declaration",
+      "declared_model": "RMA2411",
+      "declared_bluetooth_version": "5.4",
+      "bluetooth_profile_literal": "HFP/AVRCP/A2DP/BLE/SPP",
+      "codecs_literal": "AAC/SBC/LDAC",
+      "actual_gatt_services": null,
+      "actual_rfcomm_services": null,
+      "vendor_control_commands": null
+    },
+    {
+      "id": "realme-button-chart-image-23",
+      "url": "https://image01.realme.net/general/20240826/1724641471286750a7ebab13f4fbc9f5a578da619ab50.jpg",
+      "sha256": "fe2991bbc80e13017a96a6ba370f76029d3ee969d49a2b3f6150e57945c23348",
+      "evidence_type": "visual transcription of manufacturer instructions",
+      "local_controls": [
+        { "button": "ANC", "action": "Short press one time", "function": "Awareness/ANC on/ANC off" },
+        { "button": "ANC", "action": "Press and hold for 1s", "function": "Game mode/Music mode" },
+        { "button": "ANC", "action": "Short press three times", "function": "LDAC on/off" },
+        { "button": "ANC", "action": "Short press two times", "function": "Spatial Audio Effect on/off" },
+        { "button": "ANC + volume up", "action": "Press for 1s", "function": "Adaptive noise mode on/off" }
+      ],
+      "remote_equivalents_observed": false
+    },
+    {
+      "id": "realme-fast-pair-image-21",
+      "url": "https://image01.realme.net/general/20240826/1724641468400d4af591d6c344994bcc0510bf5f33a28.jpg",
+      "sha256": "5642b2d8a785ee0681384d0c007fd18423ac91205bf4f211997a89f2ed5a41a7",
+      "evidence_type": "manufacturer marketing declaration",
+      "declared_feature": "Google Fast Pair",
+      "runtime_observed": false,
+      "companion_app_control_implied": false
+    }
+  ],
+  "limitations": [
+    "Manufacturer declarations do not establish interfaces exposed by an owner's actual firmware.",
+    "No app-control instructions were identified in the 26 reviewed desktop images; this is bounded negative evidence, not proof no app exists.",
+    "BLE/SPP declarations do not establish ANC, EQ, spatial, gaming or firmware control commands.",
+    "Multiple images from the same product page are not independent publishers or independent support confirmations."
+  ]
+}

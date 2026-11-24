@@ -1,0 +1,143 @@
+{
+  "evidence_type": "Static APK analysis (REA 6.8.0 / JADX 0.7.1) plus read-only ADB inventory and CompanionDeviceManager state; the app was not launched and no codec setting was changed",
+  "prepared_utc": "2026-11-24",
+  "question": "How can com.amrg.bluetooth_codec_converter change A2DP/LDAC codec quality without root or ADB-granted privileges?",
+  "artifacts": {
+    "downloaded": {
+      "label": "APKPure public CDN, file labelled 2.6.1",
+      "sha256": "83963fcf8e18dfa44ccd9398018574e7bc4abc15e0ab6c91c1c9b37fa63d60c1",
+      "bytes": 13377290,
+      "decoded_manifest": {
+        "version_name": "2.6.1",
+        "version_code": "1125",
+        "min_sdk": "29",
+        "target_sdk": "37"
+      },
+      "apksigner_v3": {
+        "verified": true,
+        "signer_certificate_sha256": "31332a623837cc09eef5672c00a3f9242d012ac11bc8baf84b8a0ee8b0b3f5de",
+        "signer_dn": "CN=Android, OU=Android, O=Google Inc., L=Mountain View, ST=California, C=US",
+        "source_stamp": true
+      },
+      "note": "REA signature-structure Evidence ev_c92b7029602718fc7e42db61da01b414deb02236befeeedda9256e33a2b20ee6 reported self-consistent v2/v3 digests; apksigner later verified v3 cryptographically. Neither establishes Play-publisher authenticity."
+    },
+    "installed_on_phone": {
+      "origin": "Read from the owner's existing installation; not replaced, re-signed or launched. Owner states it came from Google Play.",
+      "path_kind": "private /data/app base.apk pulled through authorized ADB",
+      "sha256": "3818294412822783565b5ebdc6f22c146ab0187da19ba51fdd2ef729817033b6",
+      "bytes": 9046413,
+      "version_name": "2.4.1",
+      "version_code": "1121",
+      "apksigner_v3": {
+        "verified": true,
+        "signer_certificate_sha256": "44c3bb8c7ea35b3bb11cbfa3c2f5879240df2e49e39816b4437b9856fbb29541",
+        "signer_dn": "CN=Android Debug, O=Android, C=US",
+        "source_stamp": false
+      },
+      "signing_note": "The installed copy's certificate differs from the downloaded 2.6.1 file. This is an observed identity discrepancy, not proof of malice; the owner reported Play Store as the source. Static conclusions below are pinned to this exact installed artifact."
+    }
+  },
+  "phone_state": {
+    "device": "Nothing A001 (Galaga / GalagaIND)",
+    "android_release": "16",
+    "sdk": "36",
+    "fingerprint": "Nothing/GalagaIND/Galaga:16/BP2A.250605.031.A3/2609281137:user/release-keys",
+    "security_patch": "2026-10-01",
+    "ro_debuggable": "0",
+    "ro_secure": "1",
+    "app_requested_permissions": [
+      "android.permission.BLUETOOTH_CONNECT",
+      "android.permission.MODIFY_AUDIO_SETTINGS",
+      "android.permission.REQUEST_OBSERVE_COMPANION_DEVICE_PRESENCE",
+      "android.permission.REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND",
+      "android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE",
+      "android.permission.POST_NOTIFICATIONS",
+      "android.permission.RECEIVE_BOOT_COMPLETED",
+      "android.permission.DUMP",
+      "android.permission.PACKAGE_USAGE_STATS"
+    ],
+    "privileged_permissions_absent": [
+      "android.permission.BLUETOOTH_PRIVILEGED",
+      "android.permission.WRITE_SECURE_SETTINGS",
+      "android.permission.READ_LOGS"
+    ],
+    "companion_association": {
+      "observed": true,
+      "package": "com.amrg.bluetooth_codec_converter",
+      "display_name": "realme TechLife Studio H1",
+      "self_managed": false,
+      "revoked": false,
+      "device_mac": "[redacted in published evidence; present in private capture]",
+      "source": "read-only dumpsys companiondevice on the selected authorized phone"
+    },
+    "declaration": "The installed app declares CompanionDevicePresenceService bound with android.permission.BIND_COMPANION_DEVICE_SERVICE and action android.companion.CompanionDeviceService. No root, Shizuku, or shell-identity component was observed."
+  },
+  "static_call_path": {
+    "authority": "shipped-artifact / decompiled bytecode of the exact installed APK",
+    "sdk_visibility": "BluetoothA2dp.getCodecStatus and setCodecConfigPreference are public-but-hidden framework methods. The official Android 16 non-SDK flag CSV lists them as sdk,system-api,test-api, not blacklist/unsupported, so Class.getMethod reflection is not blocked by non-SDK restrictions on this build.",
+    "steps": [
+      {
+        "step": 1,
+        "class": "com.amrg.bluetooth_codec_converter.data.codec.A2dpCodecMethods",
+        "method": "getCodecStatus_delegate$lambda$0 / setCodecConfigPreference_delegate$lambda$0",
+        "evidence_ids": [
+          "ev_e7082e1bb719e9c09813553ae5caaf48d5bc47d614bc8587ee47222864d98d4c",
+          "ev_b2cb9727b8de70b6930ba4759b716fc41d449c882cab27908f6637db68896999"
+        ],
+        "observation": "BluetoothA2dp.class.getMethod(\"getCodecStatus\", BluetoothDevice.class) and getMethod(\"setCodecConfigPreference\", BluetoothDevice.class, BluetoothCodecConfig.class), wrapped in a failure holder that degrades to null."
+      },
+      {
+        "step": 2,
+        "class": "com.amrg.bluetooth_codec_converter.data.codec.CodecReflectionKt",
+        "method": "invokeGetCodec / invokeSetCodec",
+        "evidence_ids": [
+          "ev_48916cdcd6460896f3f9f27d4d053d445de19a2aa2bd54f38c71be0bbb10ca46",
+          "ev_844f9ea3f98b26b0afe9075aee42e6700981fdb19e377d0c92af03f12b3a70a2"
+        ],
+        "observation": "Ordinary java.lang.reflect.Method.invoke on the framework BluetoothA2dp proxy. No setAccessible on the A2DP methods, no hidden-API bypass service, no privileged helper."
+      },
+      {
+        "step": 3,
+        "class": "com.amrg.bluetooth_codec_converter.data.codec.BluetoothCodecConfigCompat",
+        "method": "legacyConstructor_delegate$lambda$0 / createLegacy",
+        "evidence_ids": [
+          "ev_171c5f948afbe3c2a8aecc43308bfd1a42ce5f74f98c60f2b30e41cf02d03f75",
+          "ev_d97aecc81faac475abe258b5a77a1d05bdce967656821d5a783c92e9f661d0e7"
+        ],
+        "observation": "Builds BluetoothCodecConfig through the hidden 9-argument constructor with setAccessible(true), with an explicit null/failure fallback when unavailable."
+      },
+      {
+        "step": 4,
+        "class": "com.amrg.bluetooth_codec_converter.data.codec.CodecManager.AnonymousClass2",
+        "method": "invokeSuspend",
+        "evidence_ids": [
+          "ev_593edbbd42fbeb79d64f00af8eb5a017cc245012a59807f2b5d7c1ff7ea10ddb"
+        ],
+        "observation": "CodecConfigFactory.generate(...) builds the target config from codec type, sample rate, bit depth, channel mode and codecSpecific1, then invokeSetCodec is called. Optional sample-rate-hop config, two-step apply and force-playback paths are also present."
+      },
+      {
+        "step": 5,
+        "class": "com.amrg.bluetooth_codec_converter.data.codec.CodecUtil",
+        "method": "getLDACQualityName / getLDACQualityNumber",
+        "evidence_ids": [
+          "ev_af9a21d876c115a9eb1ced23a6f25fcdf9246167c475e12e70e77cda959080fa",
+          "ev_fdaffc9fd749db5afd67fcc4667ea921b82ede3d04a2cbad9602a8ccff228b9f"
+        ],
+        "observation": "LDAC policy mapping: best effort (adaptive), 330/303, 660/606, and 1000 = 990/909 kbps 'Optimized for audio quality'. Confirms the concrete value used for the owner's requested quality."
+      }
+    ]
+  },
+  "permission_analysis": {
+    "binder_gate": "On Android 16 the Bluetooth service's setCodecConfigPreference Binder method accepts either BLUETOOTH_PRIVILEGED or a non-self-managed CompanionDeviceManager association whose package matches the calling UID and whose device MAC matches the target device. The owner's phone has exactly such an association for this package and the H1.",
+    "why_no_root": "The app never requests BLUETOOTH_PRIVILEGED. It relies on the per-device CDM association created with ordinary user consent during onboarding. That association is an authorization exception at the Binder check, not a grant of the privileged permission and not a shell/root identity.",
+    "why_no_adb": "ADB was used only by us to read state. The app reaches the A2DP proxy through the normal Bluetooth profile-proxy API and calls public-hidden framework methods via reflection. Non-SDK restrictions do not block these particular descriptors on the tested Android 16 build because their official flags are sdk,system-api,test-api.",
+    "caveats": [
+      "Static code does not prove that a particular quality change succeeded at runtime; that requires a separately approved reversible test.",
+      "The hidden API is not a stable public SDK contract; OEM and Android-version differences remain a compatibility risk.",
+      "Permission-gate evidence is AOSP source plus observed phone state, not a trace of a real setter invocation in this app.",
+      "Companion association is on the exact device; changing the H1 address/re-pairing can invalidate the route until re-associated."
+    ]
+  },
+  "reusable_design_conclusion": "A no-root companion app can implement direct LDAC quality selection by (1) obtaining normal BLUETOOTH_CONNECT and a user-approved CompanionDeviceManager association for the specific headset, (2) calling the hidden-but-public BluetoothA2dp codec methods via reflection with graceful fallback, and (3) constructing BluetoothCodecConfig from the hidden constructor with codecSpecific1 policy values. This reproduces the observed app route without root, ADB, privileged permissions, or re-signing.",
+  "privacy": "No Bluetooth MAC address, USB serial, full dumpsys capture, or complete proprietary decompilation is stored in this repository. Private artifacts remain under the approved local temporary directory."
+}

@@ -1,0 +1,39 @@
+{
+  "evidence_type": "Owner-driven headset button test; agent observed read-only logcat, wrote no commands",
+  "date": "2026-11-25",
+  "app": "dev.madhuraj.h1.fork, pid 30528",
+  "events": [
+    {
+      "phone_clock": "00:54:59.746",
+      "line": "D H1: <- RealmeEvent(07 01 00 02 00)",
+      "interpretation": "Unidentified realme feature 7; not used by H1 Control state model"
+    },
+    {
+      "phone_clock": "00:55:06.522",
+      "line": "D H1: <- RealmeEvent(04 01)",
+      "interpretation": "Game mode ON push. Feature id 4 maps to gameMode = true in HeadsetSession.handle()."
+    },
+    {
+      "phone_clock": "00:56:59.715",
+      "line": "D H1: <- RealmeEvent(04 00)",
+      "interpretation": "Game mode OFF push"
+    },
+    {
+      "phone_clock": "00:57:05.964",
+      "line": "D H1: <- RealmeEvent(05 00)",
+      "interpretation": "Spatial OFF push; value 0"
+    },
+    {
+      "phone_clock": "00:57:08.292",
+      "line": "D H1: <- RealmeEvent(05 06)",
+      "interpretation": "Spatial ON push; value 6, matches upstream writeback mapping"
+    }
+  ],
+  "correlated_status": "Status responses at 00:55:01 and 00:55:02 still carried no game/spatial fields; only battery, noise mode and supported modes.",
+  "conclusion": "Game/spatial event map complete: 04 01/00 = game on/off; 05 06/00 = spatial on/off. Values are push-only; no query command observed.",
+  "limits": [
+    "Owner pressed the button; agent did not write to the headset.",
+    "OFF and spatial transitions now captured; value 6 = spatial on confirmed once.",
+    "Noise-mode attribute changed from 00 to 01 in nearby status responses; cause not isolated."
+  ]
+}

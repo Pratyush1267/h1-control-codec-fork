@@ -1,0 +1,14 @@
+{
+  "evidence_type": "Owner-approved bounded write experiment: third game-mode hypothesis, unwrapped realme frame, plus reversal",
+  "date": "2026-11-25",
+  "hypothesis": "Writing raw bytes 85 86 87 02 04 01 directly to RFCOMM ch1 toggles game mode ON",
+  "commands": [
+    {"time": "01:50:09.290", "direction": "app -> H1", "frame": "85 86 87 02 04 01", "response": "none observed"},
+    {"time": "01:50:13.663", "direction": "app -> H1 reversal", "frame": "85 86 87 02 04 00", "response": "none observed"}
+  ],
+  "observed_effect": "No ACK, no RealmeEvent, status responses unchanged (battery 0x12, noise 0x01, supported modes 3).",
+  "interpretation": {
+    "conclusion": "Hypothesis failed on observable channels. Owner physical confirmation required. Matches upstream comment that writing button notification frames back has no effect."
+  },
+  "safety": ["No pairing, firmware or root operation.", "Reversal sent immediately."]
+}

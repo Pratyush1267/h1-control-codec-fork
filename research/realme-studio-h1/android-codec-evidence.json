@@ -1,0 +1,125 @@
+{
+  "accessed_on": "2026-11-24",
+  "evidence_type": "Pinned AOSP source inspection, not testing of the owner's Android phone",
+  "owner_feedback_record": "owner-control-validation.json",
+  "findings": {
+    "quality_setting_layer": "Phone-side Bluetooth A2DP codec configuration; not H1 SPP/RCSP noise control",
+    "settings_default": "BluetoothQualityDialogPreference.getDefaultIndex() returns 3, corresponding to the best-effort radio option",
+    "quality_mapping": "BluetoothQualityDialogPreferenceController writes codecSpecific1 = 1000 + selected index for indices 0 through 3",
+    "settings_setter": "AbstractBluetoothDialogPreferenceController calls BluetoothA2dp.setCodecConfigPreference for the active A2DP device",
+    "public_sdk_boundary": "BluetoothA2dp.getCodecStatus and setCodecConfigPreference are @hide / @SystemApi, not unrestricted ordinary public SDK APIs",
+    "permission_boundary": "Inspected framework docs require BLUETOOTH_CONNECT plus BLUETOOTH_PRIVILEGED or a Companion Device Manager association. The A2dpService binder applies enforceCdmAssociationIfNotBluetoothPrivileged to both methods",
+    "companion_route_limit": "A service permission exception does not make the method a stable public SDK API or establish access on every Android/OEM build. A matching package/UID/device association can authorize the setter without granting BLUETOOTH_PRIVILEGED; owner-phone access and reconfiguration remain separate tests",
+    "hidden_api_runtime_policy": "Official Android 16 hidden-API flags classify both exact A2DP getter/setter descriptors as sdk,system-api,test-api, not public-api. They are not blanket-blocked entries; @hide/@SystemApi alone is not proof that ordinary reflection requires root or a restrictions bypass",
+    "version_qualification": "The original five retained files describe one current source snapshot. Additional source review found different Binder gates across Android 12-16, including Android 15 r36's privileged-only getter while its setter still accepts a CDM association. Android major version alone is insufficient for compatibility claims",
+    "persistence": "No owner-phone reconnect/restart persistence or automatic reapplication was tested",
+    "quality_not_throughput": "A configured quality policy is not a measurement of instantaneous encoded bitrate or radio throughput"
+  },
+  "source_files": [
+    {
+      "path": "BluetoothA2dp.java",
+      "url": "https://android.googlesource.com/platform/packages/modules/Bluetooth/+/745ee92b87ed62b5a8a1bac47d5df8cad623bf59/framework/java/android/bluetooth/BluetoothA2dp.java?format=TEXT",
+      "commit": "745ee92b87ed62b5a8a1bac47d5df8cad623bf59",
+      "relevant_lines": "729-803",
+      "bytes": 42751,
+      "sha256": "d35ec3a9c002a465eea5668214d112ed2a14cad7c2c42ad793c6cf7361caf7f2"
+    },
+    {
+      "path": "A2dpService.java",
+      "url": "https://android.googlesource.com/platform/packages/modules/Bluetooth/+/745ee92b87ed62b5a8a1bac47d5df8cad623bf59/android/app/src/com/android/bluetooth/a2dp/A2dpService.java?format=TEXT",
+      "commit": "745ee92b87ed62b5a8a1bac47d5df8cad623bf59",
+      "relevant_lines": "1532-1562",
+      "bytes": 69239,
+      "sha256": "0f004b28db208276c1401bfc826c1f56b6a24113cf89a6a09ff5cdbbbaf03945"
+    },
+    {
+      "path": "BluetoothQualityDialogPreference.java",
+      "url": "https://android.googlesource.com/platform/packages/apps/Settings/+/7c598253ff60f06f8e6fe046f18fd88e9daa72d3/src/com/android/settings/development/bluetooth/BluetoothQualityDialogPreference.java?format=TEXT",
+      "commit": "7c598253ff60f06f8e6fe046f18fd88e9daa72d3",
+      "relevant_lines": "58-68",
+      "bytes": 2877,
+      "sha256": "da410d6f0c759660f164db7403a7c3a2dd72aa3d72cb4ce0c17cad8b003b93b3"
+    },
+    {
+      "path": "BluetoothQualityDialogPreferenceController.java",
+      "url": "https://android.googlesource.com/platform/packages/apps/Settings/+/7c598253ff60f06f8e6fe046f18fd88e9daa72d3/src/com/android/settings/development/bluetooth/BluetoothQualityDialogPreferenceController.java?format=TEXT",
+      "commit": "7c598253ff60f06f8e6fe046f18fd88e9daa72d3",
+      "relevant_lines": "59-79, 93-103",
+      "bytes": 3833,
+      "sha256": "4c164ad51f295b719eee8f48a3fc839c9ae76eaec508f944ac68279769337b9a"
+    },
+    {
+      "path": "AbstractBluetoothDialogPreferenceController.java",
+      "url": "https://android.googlesource.com/platform/packages/apps/Settings/+/7c598253ff60f06f8e6fe046f18fd88e9daa72d3/src/com/android/settings/development/bluetooth/AbstractBluetoothDialogPreferenceController.java?format=TEXT",
+      "commit": "7c598253ff60f06f8e6fe046f18fd88e9daa72d3",
+      "relevant_lines": "91-95",
+      "bytes": 11042,
+      "sha256": "25358d796f8b12ea59651f64be985ae2919e815c944f9f9c8c2843a60d70cb9d"
+    }
+  ],
+  "access_review_addendum": {
+    "evidence_type": "Read-only AOSP/document review, not commercial-app implementation or owner-phone runtime evidence",
+    "association_checks": "Utils checks the Binder calling UID against the supplied package in that Android user's context, then requires the same package and requested device MAC, case-insensitively. Self-managed associations and null addresses do not qualify. A Bluetooth bond alone is insufficient",
+    "association_source": "https://android.googlesource.com/platform/packages/modules/Bluetooth/+/745ee92b87ed62b5a8a1bac47d5df8cad623bf59/android/app/src/com/android/bluetooth/Utils.java#460",
+    "normal_user_consent": "https://developer.android.com/develop/connectivity/bluetooth/companion-device-pairing",
+    "runtime_flag_source": "https://dl.google.com/developers/android/baklava/non-sdk/hiddenapi-flags.csv",
+    "runtime_flag_entries": [
+      {
+        "line": 65122,
+        "entry": "Landroid/bluetooth/BluetoothA2dp;->getCodecStatus(Landroid/bluetooth/BluetoothDevice;)Landroid/bluetooth/BluetoothCodecStatus;,sdk,system-api,test-api"
+      },
+      {
+        "line": 65145,
+        "entry": "Landroid/bluetooth/BluetoothA2dp;->setCodecConfigPreference(Landroid/bluetooth/BluetoothDevice;Landroid/bluetooth/BluetoothCodecConfig;)V,sdk,system-api,test-api"
+      }
+    ],
+    "runtime_flag_interpretation_source": "https://android.googlesource.com/platform/art/+/android-16.0.0_r1/runtime/hidden_api.h#270",
+    "version_snapshots": [
+      {
+        "tags_reviewed": ["android-12.0.0_r1", "android-12.0.0_r34"],
+        "additional_getter_gate_beyond_bluetooth_connect": "none in inspected Binder methods",
+        "additional_setter_gate_beyond_bluetooth_connect": "none in inspected Binder methods",
+        "source": "https://android.googlesource.com/platform/packages/apps/Bluetooth/+/5f529f90084b73bdb90b18665267cb315ce9b1d7/src/com/android/bluetooth/a2dp/A2dpService.java#1391"
+      },
+      {
+        "tags_reviewed": ["android-13.0.0_r1", "android-13.0.0_r84"],
+        "additional_getter_gate_beyond_bluetooth_connect": "none in inspected Binder methods",
+        "additional_setter_gate_beyond_bluetooth_connect": "none in inspected Binder methods",
+        "source": "https://android.googlesource.com/platform/packages/modules/Bluetooth/+/e090a3dfb8ab5cb7216587daea8ecac8ece7e511/android/app/src/com/android/bluetooth/a2dp/A2dpService.java#1501"
+      },
+      {
+        "tags_reviewed": ["android-14.0.0_r1", "android-14.0.0_r75"],
+        "additional_getter_gate_beyond_bluetooth_connect": "none in inspected Binder method",
+        "additional_setter_gate_beyond_bluetooth_connect": "BLUETOOTH_PRIVILEGED or eligible CDM association",
+        "source": "https://android.googlesource.com/platform/packages/modules/Bluetooth/+/de2248e503812528d440d0717e76b84148a92e56/android/app/src/com/android/bluetooth/a2dp/A2dpService.java#1575"
+      },
+      {
+        "tags_reviewed": ["android-15.0.0_r1"],
+        "additional_getter_gate_beyond_bluetooth_connect": "none in inspected Binder method",
+        "additional_setter_gate_beyond_bluetooth_connect": "BLUETOOTH_PRIVILEGED or eligible CDM association",
+        "source": "https://android.googlesource.com/platform/packages/modules/Bluetooth/+/android-15.0.0_r1/android/app/src/com/android/bluetooth/a2dp/A2dpService.java#1540"
+      },
+      {
+        "tags_reviewed": ["android-15.0.0_r36"],
+        "additional_getter_gate_beyond_bluetooth_connect": "BLUETOOTH_PRIVILEGED; no CDM exception in this getter snapshot",
+        "additional_setter_gate_beyond_bluetooth_connect": "BLUETOOTH_PRIVILEGED or eligible CDM association",
+        "source": "https://android.googlesource.com/platform/packages/modules/Bluetooth/+/810eacb8454c957255fec9328e6e41b30a054033/android/app/src/com/android/bluetooth/a2dp/A2dpService.java#1521"
+      },
+      {
+        "tags_reviewed": ["android-16.0.0_r1", "android-16.0.0_r4"],
+        "additional_getter_gate_beyond_bluetooth_connect": "BLUETOOTH_PRIVILEGED or eligible CDM association",
+        "additional_setter_gate_beyond_bluetooth_connect": "BLUETOOTH_PRIVILEGED or eligible CDM association",
+        "source": "https://android.googlesource.com/platform/packages/modules/Bluetooth/+/5323f31677c7dfa04de2e6e9fce1012ef4edaff2/android/app/src/com/android/bluetooth/a2dp/A2dpServiceBinder.java#213"
+      }
+    ],
+    "compatibility_limit": "These are inspected source tags and official flag files, not a guarantee about any OEM/Mainline build, work profile, or the commercial app's actual method path"
+  },
+  "commercial_app_follow_up": "CODEC-CHANGER-TEST-PLAN.md",
+  "retention": "The original five unmodified decoded AOSP source files and their hash manifest remain retained in the approved local temporary directory; none was compiled or installed. Addendum URLs and exact selected flag entries are recorded separately and are not counted as additional retained source files",
+  "limitations": [
+    "Current AOSP source is not proof of the code, default, permissions or persistence in the owner's particular Android/OEM build.",
+    "No Android device was queried, associated, rooted, configured or re-paired during this follow-up.",
+    "No quality-setting command, hidden-API experiment, Shizuku operation or automatic reapplication was executed.",
+    "A GitHub tree lookup for additional pinned H1 app files returned HTTP 403; this supplement does not claim to inspect every Android codec helper."
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "evidence_type": "Static REA/JADX decompilation of the owner's installed H1 Control APK; no target execution",
+  "artifact": {
+    "package": "dev.madhuraj.h1",
+    "sha256": "5320be73b863d39fd542b787ca09540f88b6b645c0cead08c3246b46bb0be0a4",
+    "version_name": "0.1.0",
+    "signer_dn": "CN=H1 Control"
+  },
+  "tool": "REA 6.8.0 / JADX 0.7.1 via connected MCP",
+  "findings": [
+    {
+      "claim": "No query command exists for game mode or spatial audio",
+      "evidence_ids": [
+        "ev_ad63b7e0e21d18ff2cdde59149e38781d72f0c5b0961bb83d83e8e836d956b20",
+        "ev_72ce63b9ddc33e63816b02a8b1f621e290e9fce5e08b9569596e0c45c3df82ac"
+      ],
+      "observation": "Commands class exposes only getStatus(op=0x07), getTargetInfo(op=0x03) and setNoiseMode(op=0x08). getStatus encodes op 7 with function 0xFF and all-attribute mask."
+    },
+    {
+      "claim": "Game/spatial values come only from pushed button events",
+      "evidence_ids": [
+        "ev_8b5d071c7aafc4d55520ca2aba4aa4f833ffdbb713357a0df639d89ec114f718",
+        "ev_0c9f8d7694b0b0f7e981c92b962783dff5342c4fbf4365d274a30308f103b692"
+      ],
+      "observation": "handle() updates gameMode only for RealmeEvent feature 4 and spatialAudio only for feature 5. RealmeFrame defines exactly those two feature ids. No other state path sets them."
+    },
+    {
+      "claim": "Status response cannot contain game/spatial/adaptive state",
+      "evidence_id": "ev_5fd69a4b7e7e81424872cf5ea82d035adadb7d84fdc926bfae563c208b022767",
+      "observation": "applySysInfo() handles only attribute 0 (battery), 13 (noise mode) and 14 (supported modes). No adaptive-noise attribute handled."
+    },
+    {
+      "claim": "Upstream setNoiseMode updates UI optimistically",
+      "evidence_id": "ev_dc46c7b95246d830a1c3c63c1245cd6479af31fa618031a886e8acfddcd25ae2",
+      "observation": "setNoiseMode writes command then immediately copies mode into state before any acknowledgement. Our fork changed this to pending-until-report."
+    }
+  ],
+  "limitations": [
+    "Static decompilation of one installed artifact, not a runtime trace of every firmware or app version.",
+    "Absence of a command in this artifact is not proof that no other firmware exposes one.",
+    "No Frida/runtime tracing was used."
+  ]
+}

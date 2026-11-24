@@ -1,0 +1,109 @@
+{
+  "observed_at_utc": "2026-11-24T15:50:18.828570+00:00",
+  "method": "One fixed source-backed GET_SYS_INFO query over Windows native SPP/RFCOMM",
+  "protocol_source_commit": "a7d08b045164996c7b5153660eb7d640898b3242",
+  "device_name": "realme TechLife Studio H1",
+  "device_address": "redacted",
+  "service_uuid": "00001101-0000-1000-8000-00805f9b34fb",
+  "remote_rfcomm_channel": null,
+  "outcome": "status_response_verified",
+  "matching_status_response_received": true,
+  "received_frame_metadata": [
+    {
+      "kind": "response",
+      "opcode_hex": "0x07",
+      "sequence": 1,
+      "status": 0,
+      "payload_bytes": 86
+    }
+  ],
+  "reported_status": {
+    "battery_percent": 39,
+    "noise_mode": "off",
+    "reported_noise_modes": [
+      {
+        "code": 0,
+        "name": "off"
+      },
+      {
+        "code": 1,
+        "name": "anc"
+      },
+      {
+        "code": 2,
+        "name": "transparency"
+      }
+    ],
+    "game_mode": null,
+    "spatial_audio": null,
+    "firmware_version": null,
+    "attribute_inventory": [
+      {
+        "attribute_hex": "0x00",
+        "value_bytes": 1
+      },
+      {
+        "attribute_hex": "0x02",
+        "value_bytes": 21
+      },
+      {
+        "attribute_hex": "0x06",
+        "value_bytes": 1
+      },
+      {
+        "attribute_hex": "0x09",
+        "value_bytes": 1
+      },
+      {
+        "attribute_hex": "0x0a",
+        "value_bytes": 7
+      },
+      {
+        "attribute_hex": "0x0d",
+        "value_bytes": 9
+      },
+      {
+        "attribute_hex": "0x0e",
+        "value_bytes": 28
+      },
+      {
+        "attribute_hex": "0x0f",
+        "value_bytes": 1
+      }
+    ],
+    "interpretation_warnings": []
+  },
+  "safety": {
+    "bluetooth_inquiry_issued": false,
+    "full_sdp_inventory_requested": false,
+    "windows_uuid_resolution_may_use_sdp": true,
+    "gatt_operations_requested": false,
+    "socket_created": true,
+    "control_connection_established": true,
+    "socket_closed": true,
+    "vendor_query_send_calls": 1,
+    "vendor_bytes_sent": 14,
+    "setting_change_commands_sent": false,
+    "automatic_acks_sent": false,
+    "automatic_retries": false,
+    "pairing_or_service_enablement_changed": false
+  },
+  "limitations": [
+    "A status response is not a verified setting-changing command.",
+    "Reported noise mode may be stale after physical ANC-button changes.",
+    "Firmware, game and spatial state are not inferred from undocumented attributes.",
+    "No Fast Pair account-key operation or vendor authentication handshake is attempted.",
+    "Audio continuity and physical mode are not independently measured by this utility."
+  ],
+  "windows_connection_before": {
+    "connected": true,
+    "remembered": true,
+    "authenticated_pairing": true
+  },
+  "response_status": 0,
+  "received_bytes": 96,
+  "unrecognised_bytes": 0,
+  "incomplete_buffer_bytes": 0,
+  "elapsed_seconds": 0.462,
+  "private_capture_sha256": "08ed8dae5d1ac3021388f90ebc2bc13a4d46602cf98212fe92ff82a96690d7b4"
+}

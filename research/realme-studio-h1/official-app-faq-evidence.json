@@ -1,0 +1,49 @@
+{
+  "accessed_on": "2026-11-24",
+  "evidence_type": "Official public article API fields and excerpts observed during this research session",
+  "api": {
+    "url": "https://customer-api.realme.com/in/knowledge/articleDetail",
+    "method": "POST",
+    "content_type": "application/json",
+    "request_pattern": {"appCode": "realme", "articleCode": "ARTICLE_ID", "area": "IN"},
+    "response_status_observed": 200
+  },
+  "articles": [
+    {
+      "article_code": "2241809",
+      "url": "https://www.realme.com/in/support/kw/doc/2241809",
+      "title": "360° Spatial Audio Effect",
+      "createTime_literal": "2026-01-30 16:18:02",
+      "updateTime_literal": "2026-01-30 16:18:07",
+      "intro_excerpt": "Utilizing the HRTF (Head-Related Transfer Function) algorithm, it delivers immersive stereo sound effects. You can connect your phone and turn it on in realme link.",
+      "supported_models_excerpt": "realme Buds Air5 Pro, realme Buds T300, realme Buds Air6 Pro, realme Buds T310, realme Buds Air7, realme Techlife Studio H1, realme Buds Air7 Pro, realme Buds T200, realme Buds Wireless 5 ANC, realme Buds Air8, realme Buds Clip",
+      "scope": "H1 is in the spatial-feature list; Link instruction is shared, not an H1-specific app pairing demonstration"
+    },
+    {
+      "article_code": "2059699",
+      "url": "https://www.realme.com/in/support/kw/doc/2059699",
+      "title": "Dual or Triple device connection and use",
+      "createTime_literal": "2026-01-30 16:11:51",
+      "updateTime_literal": "2026-01-30 17:24:48",
+      "supported_models_excerpt": "realme Buds Air 3, realme Bus Air 3s, realme Buds Wireless 3, realme Buds Air 5 Pro, realme Buds Wireless 3 Neo, realme Buds Air 6 Pro, realme Buds T310, realme Buds N1, realme Techlife Studio H1, realme Buds Wireless 5 ANC, realme Buds Air7, realme Buds T200 Lite, realme Buds Air7 Pro, realme Buds T200x, realme Buds Wireless 5 Lite, realme Buds Air8, realme Techlife Buds, realme Buds Clip",
+      "shared_procedure_excerpt": "2. Turn on the Dual-device connection in realme Link.",
+      "scope": "H1 is in the dual-device feature list; procedure is shared rather than separately labelled for H1"
+    },
+    {
+      "article_code": "2051709",
+      "url": "https://www.realme.com/in/support/kw/doc/2051709",
+      "title": "Defualt action of bluetooth earphone button",
+      "createTime_literal": "2026-07-06 16:49:58",
+      "updateTime_literal": "2026-07-09 18:14:11",
+      "h1_row_excerpt": "Short press ANC button for 1s,game mode/music mode ,for three times , LDAC on/off , for 2 times spatial Audio Effect on/off.",
+      "scope": "H1 row documents physical buttons and contains no realme Link reference; references in other models' rows do not apply to H1"
+    }
+  ],
+  "timestamp_limits": [
+    "Returned createTime and updateTime are strings with no timezone or UTC offset.",
+    "Update Time was also browser-verified for article 2241809.",
+    "No revision history, H1-added date or app-support-start date is supplied.",
+    "Article timestamps must not be interpreted as firmware or compatibility-change dates."
+  ],
+  "verdict": "Official app support unresolved pending a current region/version-specific realme Link inventory and pairing test"
+}

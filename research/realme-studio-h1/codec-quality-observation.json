@@ -1,0 +1,61 @@
+{
+  "evidence_type": "Read-only ADB observation of the selected authorized phone's active A2DP/LDAC state; no setter was invoked, no app launched, no pairing changed",
+  "observed_at_local": "2026-11-24 evening (phone clock; exact UTC in private evidence)",
+  "device": "Nothing A001 / Android 16 / GalagaIND build BP2A.250605.031.A3",
+  "headset_mac": "[redacted; present only in private evidence]",
+  "observed_state": {
+    "active_a2dp_device_is_the_h1": true,
+    "current_codec": "LDAC",
+    "a2dp_m_codec_config": {
+      "codec_name": "LDAC",
+      "codec_type": 4,
+      "sample_rate": "96000 Hz",
+      "bits_per_sample": 32,
+      "channel_mode": "STEREO",
+      "codecSpecific1": 1000
+    },
+    "ldac_quality_mode_reported_by_stack": "HIGH",
+    "ldac_transmission_bitrate_kbps_reported_by_stack": 990,
+    "audio_hal_format": "AUDIO_FORMAT_LDAC"
+  },
+  "app_value_mapping": {
+    "1000": "Optimized for audio quality (990/909 kbps)",
+    "1001": "Balanced audio and connection quality (660/606 kbps)",
+    "1002": "Optimized for connection quality (330/303 kbps)",
+    "1003": "Best effort (adaptive bit rate)",
+    "source": "CodecConstants static fields and CodecUtil.getLDACQualityName in the installed 2.4.1 APK; evidence ev_83eb50bf90a9380a7b846133da87c144e53c08cd135b98283a18cbb381db3609 and ev_af9a21d876c115a9eb1ced23a6f25fcdf9246167c475e12e70e77cda959080fa"
+  },
+  "historical_codec_changes_in_read_only_dump": [
+    {
+      "phone_clock": "11-24 21:45:27",
+      "codecSpecific1": 1000,
+      "event": "EVENT_TYPE_CODEC_CONFIG_CHANGED"
+    },
+    {
+      "phone_clock": "11-24 21:52:23",
+      "codecSpecific1": 1000,
+      "event": "reconnect / CODEC_CONFIG_CHANGED"
+    },
+    {
+      "phone_clock": "11-24 21:52:42",
+      "codecSpecific1": 1001,
+      "event": "CODEC_CONFIG_CHANGED"
+    },
+    {
+      "phone_clock": "11-24 21:52:51",
+      "codecSpecific1": 1000,
+      "event": "CODEC_CONFIG_CHANGED"
+    }
+  ],
+  "interpretation": {
+    "conclusion": "At the time of this read-only check the active policy was already 1000 = Optimized for Audio Quality, matching the owner's desired target. The earlier owner report of a Best Effort default was not the active state at this check.",
+    "unknown_cause_of_history": "The 1000 -> 1001 -> 1000 sequence shows that something changed policy twice around 21:52. Static analysis alone cannot attribute it to a specific app action, an auto-reapply service, or owner interaction; no Frida trace was available on this non-debuggable Play build.",
+    "not_proven": [
+      "That this specific app performed the observed historical changes",
+      "That the displayed 990 kbps is a measured radio bitrate rather than the stack's configured policy",
+      "That the policy survives an HFP/phone-call switch or a full disconnect/reconnect"
+    ]
+  },
+  "decision_impact": "The planned transition to Optimized for Audio Quality has no work to do because the target is already active. No setter was called. A controlled round-trip (for example 1001 Balanced then back to 1000) would prove we can drive the setting, but it briefly changes audio quality and requires a separate explicit decision.",
+  "privacy": "Full dumpsys output, MAC address and USB serial remain in a private temporary artifact and are not reproduced here."
+}

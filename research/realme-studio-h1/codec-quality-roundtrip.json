@@ -1,0 +1,64 @@
+{
+  "evidence_type": "Controlled reversible app-driven LDAC quality test, observed read-only through ADB dumpsys on the owner's authorized phone",
+  "tested_at_local": "2026-11-24 evening (phone clock); exact UTC in private captures",
+  "device": "Nothing A001 (Galaga / GalagaIND), Android 16, build BP2A.250605.031.A3",
+  "headset": "realme TechLife Studio H1, LDAC active and the active A2DP device throughout",
+  "app": {
+    "package": "com.amrg.bluetooth_codec_converter",
+    "version_before": "2.4.1 (versionCode 1121), owner-reported Play Store install",
+    "version_after_update": "2.6.1 (versionCode 1125), installed 2026-11-24 22:52:34 phone clock",
+    "note": "The owner updated the app mid-session because the earlier UI did not apply the change; after the update the UI did apply it. The updated installation is split into base plus arm64/xxhdpi splits, so its hash is not directly comparable with the single-file APKPure 2.6.1 artifact retained privately."
+  },
+  "value_mapping": {
+    "1000": "Optimized for audio quality (990/909 kbps)",
+    "1001": "Balanced audio and connection quality (660/606 kbps)",
+    "1002": "Optimized for connection quality (330/303 kbps)",
+    "1003": "Best effort (adaptive bit rate)",
+    "source": "CodecConstants fields and CodecUtil mapping in the installed 2.4.1 APK; see codec-changer-static-evidence.json"
+  },
+  "stages": [
+    {
+      "stage": 0,
+      "label": "baseline after app update",
+      "actor": "read-only observation",
+      "codecSpecific1": 1000,
+      "stack_quality": "HIGH",
+      "stack_bitrate_kbps": 990,
+      "codec": "LDAC",
+      "result": "expected_value_matched=true"
+    },
+    {
+      "stage": 1,
+      "label": "owner selected Balanced in the updated app",
+      "actor": "owner UI tap in unmodified app",
+      "codecSpecific1": 1001,
+      "stack_quality": "MID",
+      "stack_bitrate_kbps": 660,
+      "codec": "LDAC",
+      "result": "expected_value_matched=true"
+    },
+    {
+      "stage": 2,
+      "label": "owner restored Optimized for audio quality in the updated app",
+      "actor": "owner UI tap in unmodified app",
+      "codecSpecific1": 1000,
+      "stack_quality": "HIGH",
+      "stack_bitrate_kbps": 990,
+      "codec": "LDAC",
+      "result": "expected_value_matched=true; starting policy restored"
+    }
+  ],
+  "conclusion": "On the owner's unrooted Android 16 phone, the unmodified 2.6.1 app changed the active LDAC policy from 1000 to 1001 and back using its normal user-facing controls. No root, ADB grant, privileged permission, re-signing or re-pairing was needed. This converts the earlier static no-root route from a code-level finding into an observed runtime result for this app/device combination.",
+  "limitations": [
+    "The stack's reported bitrate is the configured policy, not a measured radio bitrate or an audio-quality blind test.",
+    "The audio HAL reported AUDIO_FORMAT_AAC during captures, consistent with no active LDAC media stream at those instants; the A2DP codec policy and codec status still reported LDAC. Active-playback behaviour was not separately measured.",
+    "Only one down-and-up transition was tested; reconnect persistence, HFP/call switching and repeated toggles were not tested.",
+    "The earlier 2.4.1 UI did not visibly apply the change in this session; the cause (bug, paywall or build difference) was not established. Do not generalize to older versions."
+  ],
+  "shell_runner_attempt": {
+    "status": "bounded negative; no persistent change",
+    "observation": "A temporary reflection-only runner launched as ADB shell could read codec status and reach IBluetoothA2dp, but its constructed config was rejected by A2dpCodecConfig as 'invalid codec' because the 9-arg BluetoothCodecConfig constructor order is codecType, codecPriority, sampleRate, bitsPerSample, channelMode, codecSpecific1..4, not the order initially assumed. No policy change occurred. All pushed runner files were removed from /data/local/tmp.",
+    "relevance": "Shows the shell-privileged route was not needed for the successful result and was not relied upon for any conclusion here."
+  },
+  "privacy": "MAC address, USB serial, full dumpsys captures and proprietary APKs are retained only in the approved private temporary directory and are not reproduced here."
+}

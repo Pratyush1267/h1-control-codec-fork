@@ -1,0 +1,21 @@
+{
+  "evidence_type": "Read-only state check after owner reconnect; mechanism not proven by logs",
+  "date": "2026-11-25",
+  "apk_sha256": "f7776778c5b2772be0bd41c19d4aa859c5d2032b5599d22e02665e8dfc8bef24",
+  "state": {
+    "codec": "LDAC",
+    "codecSpecific1": 1000,
+    "quality_mode": "HIGH",
+    "bitrate_kbps": 990,
+    "hal_codec": "AUDIO_FORMAT_LDAC",
+    "active_device_is_h1": true
+  },
+  "ui_text": "Codec in use: 96 kHz / 32-bit · 990 kbps (best quality); Auto reapply after reconnect: ON",
+  "log_limitation": "No H1Auto/H1Codec lines were present in logcat after this reconnect, despite instrumentation.",
+  "owner_confirmation": "Owner confirmed they tapped a quality button after reconnect.",
+  "corrected_conclusion": "Auto reapply is NOT demonstrated. The observed 1000 came from a manual tap. Manual path remains verified; automatic path remains unresolved/failed in this test.",
+  "interpretation": {
+    "confirmed": "Desired policy 1000 is active after reconnect.",
+    "not_proven": "That the fork's automatic reapply path caused it. Owner confirmation of no manual tap is required to attribute it."
+  }
+}

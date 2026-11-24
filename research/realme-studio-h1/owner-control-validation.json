@@ -1,0 +1,57 @@
+{
+  "reported_on": "2026-11-24",
+  "evidence_type": "Owner-reported controls, displayed status and Android settings; not an agent measurement",
+  "source": "Owner's follow-up conversation messages",
+  "owner_message_literal": "yes noise controll such as anc and ambient mode works",
+  "features_reported_working": [
+    {"feature": "anc", "owner_label": "anc"},
+    {"feature": "transparency", "owner_label": "ambient mode"}
+  ],
+  "owner_detection_message_literal": "also detects game mode spatial audio ldac adaptine noise codecs in use and all",
+  "features_reported_detected": [
+    {"feature": "game_mode", "owner_label": "game mode", "reported_value": null},
+    {"feature": "spatial_audio", "owner_label": "spatial audio", "reported_value": null},
+    {"feature": "ldac", "owner_label": "ldac", "reported_value": null},
+    {"feature": "adaptive_noise", "owner_label": "adaptine noise", "reported_value": null},
+    {"feature": "active_codec", "owner_label": "codecs in use", "reported_value": null}
+  ],
+  "detection_scope": "The owner reports detection/display, not remote setters. Actual values, freshness and whether each item comes from the headset or Android were not supplied. 'And all' is not expanded into additional features.",
+  "android_ldac_settings_feedback": {
+    "owner_message_literal": "also android deaults the ldaccodecs playback quality in developer option to best efort rather than optimised for audio quality",
+    "reported_default_quality_policy": "best_effort",
+    "alternative_policy_mentioned": "optimized_for_audio_quality",
+    "phone_and_android_version": null,
+    "independently_measured_on_owner_phone": false,
+    "automatic_reapplication_tested": false,
+    "evidence_record": "android-codec-evidence.json"
+  },
+  "terminology": "Ambient is recorded as transparency/awareness, consistent with the H1 noise-mode names; no setter packet was captured from this test.",
+  "context": {
+    "previous_recommendation": "Test H1 Control on Android and verify noise-control changes",
+    "intended_app_target": "Android",
+    "actual_test_app_explicitly_reconfirmed": false,
+    "actual_test_platform_explicitly_reconfirmed": false
+  },
+  "test_details": {
+    "app_name": null,
+    "app_version": null,
+    "phone_or_host_model": null,
+    "os_version": null,
+    "firmware_version": null,
+    "initial_physical_noise_mode": null,
+    "off_mode_tested": null,
+    "trial_count": null,
+    "starting_mode_restoration_confirmed": null,
+    "reconnect_or_restart_tested": null,
+    "packet_capture": null,
+    "agent_observed": false
+  },
+  "separate_agent_evidence": "windows-status-observation.json",
+  "limitations": [
+    "The owner confirms ANC and ambient functions work and reports additional status detection, but does not restate the app/tool or versions.",
+    "The pinned H1 Control README documents game/spatial button-event status and Android codec information, but says adaptive-noise state is not reported; reconcile that difference against the owner's actual app/version/display.",
+    "This report is not a Windows setter test, a packet-level command capture or validation across firmware revisions.",
+    "Detection does not confirm headphone-stored music EQ, gaming/spatial/LDAC/adaptive setters, firmware updating or automatic Android codec-quality control.",
+    "No new Bluetooth operation, application installation or setting change was performed by the agent when recording this feedback."
+  ]
+}
